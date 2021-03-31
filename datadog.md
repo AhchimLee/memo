@@ -442,7 +442,13 @@
 
 
 ## [process_name] Process Count < 1
-
+**/etc/datadog/process.d/conf.yaml** 파일 설정 후 **datadog-agent** 재부팅하여 사용
+ex) 서버명-프로세스명-포트(옵션)
+instances:
+  - name: zet-prd-was-a-01_tomcat_8080
+    search_string: ["/usr/lib/jvm/jre/bin/java"]
+    
+참고: https://docs.datadoghq.com/integrations/process/
 ```json
 {
 	"id": 21277852,
