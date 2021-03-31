@@ -443,36 +443,37 @@ DataDog Integration 중 **Amazon Health** 설치 후 사용
 
 ## [process_name] Process Count < 1
 **/etc/datadog/process.d/conf.yaml** 파일 설정 후 **datadog-agent** 재부팅하여 사용  
-ex) name: 서버명-프로세스명-포트(옵션)
+ex) name: 프로세스명_포트(옵션)
 ```yaml
 ...
 instances:
-  - name: zet-prd-was-a-01_tomcat_8080
-    search_string: ["/usr/lib/jvm/jre/bin/java"]
+  - name: tomcat_8080
+    search_string: ["java", "tomcat"]
 ```
+메트릭 생성 시 상단 name: 부분 process_name으로 확인 가능
 
 참고: https://docs.datadoghq.com/integrations/process/
 ```json
 {
-	"id": 21277852,
-	"name": "[jenkins] process count < {{threshold}}",
-	"type": "process alert",
-	"query": "processes('jenkins').over('name:prd-an2-jenkins').rollup('count').last('1m') < 1",
-	"message": "*Alarm   :  [jenkins] process count < {{threshold}} \n*Current: {{value}}%\n*Name   :  {{name.name}}\n*Time(UTC):  {{last_triggered_at}}\n===============================\n@ahchim.lee@bespinglobal.com @webhook-AlertNow",
+	"id": 33139409,
+	"name": "[{{process_name.name}}] process count = {{eval \"int(threshold)\"}} in {{name.name}}",
+	"type": "metric alert",
+	"query": "avg(last_1m):avg:system.processes.number{*} by {name,process_name,host,cloud_provider,service,instance-type,availability-zone,env} <= 0",
+	"message": "*Alarm   :  [{{process_name.name}}] process count = {{eval \"int(threshold)\"}}\n*Name   :  {{name.name}} ({{instance-type.name}}) / {{host.ip}}\n*AZ         :  {{cloud_provider.name}} > {{availability-zone.name}}\n*Service :  {{service.name}}  >  {{env.name}}\n*Time(UTC):  {{last_triggered_at}}\n===============================\n@ahchim.lee@bespinglobal.com @webhook-AlertNow",
 	"tags": [],
 	"options": {
 		"notify_audit": false,
 		"locked": false,
 		"timeout_h": 0,
 		"new_host_delay": 300,
-		"require_full_window": false,
+		"require_full_window": true,
 		"notify_no_data": false,
 		"renotify_interval": "0",
 		"escalation_message": "",
 		"no_data_timeframe": null,
-		"include_tags": true,
+		"include_tags": false,
 		"thresholds": {
-			"critical": 1
+			"critical": 0
 		}
 	},
 	"priority": null
