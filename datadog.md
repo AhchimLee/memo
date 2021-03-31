@@ -23,7 +23,7 @@
 
 ## 2. 모니터링 정책 목록 (JSON)
 
-## CPU Used % >
+## CPU Used % >=
 
 ```json
 {
@@ -54,7 +54,7 @@
 }
 ```
 
-## Disk Used % >
+## Disk Used % >=
 ```json
 {
 	"id": 33063048,
@@ -83,7 +83,7 @@
 }
 ```
 
-## Mem Used % >
+## Mem Used % >=
 ```json
 {
 	"id": 33063072,
