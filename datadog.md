@@ -3,23 +3,23 @@
 ## 1. DataDog 모니터링 Alert Import
 
 0. https://app.datadoghq.com 접속 후,  원하는 **Organization** 내부로 접속합니다.
-![00](http://drive.google.com/uc?export=view&id=1XKbhdJ7yBpCGm6Vfwa7g3KhYna_2Mfgk)
+![00](https://github.com/AhchimLee/memo/raw/main/import_mnt_00.png)
 
 1. **Monitors > Manage Monitors** 접근 후 **New Monitor**를 클릭합니다.
-![01](http://drive.google.com/uc?export=view&id=1XHjmn0dPi1ub4CFerQEA94fDSwlif9XU)
+![01](https://github.com/AhchimLee/memo/raw/main/import_mnt_01.png)
 
 2. Monitor type 중 **Import Monitor from JSON**을 클릭합니다.
-![02](http://drive.google.com/uc?export=view&id=1XMhdu-vz808CObDZPxg5lv7LiCL1iMWS)
+![02](https://github.com/AhchimLee/memo/raw/main/import_mnt_02.png)
 
 3. 하기 `모니터링 정책 목록 (JSON)` 내용 중 하나를 선택하여 복사 붙여넣기합니다.
-![03](http://drive.google.com/uc?export=view&id=1XOeAGD6htNcXzcyLsrAOSTyZKfGwnBPZ)
+![03](https://github.com/AhchimLee/memo/raw/main/import_mnt_03.png)
 
 4. Save 후 모니터링 Alert 내용을 수정합니다. (메트릭 값, 알람 수신자 등)
-![04](http://drive.google.com/uc?export=view&id=1XUKTs1fP7FJxvLbVGKHfpxz8EYFv1FAy)
-![05](http://drive.google.com/uc?export=view&id=1XV6WmoOR2k88sJdT-rr4Z63X_vERF63-)
+![04-1](https://github.com/AhchimLee/memo/raw/main/import_mnt_04_1.png)
+![04-2](https://github.com/AhchimLee/memo/raw/main/import_mnt_04_2.png)
 
 5. Save 클릭 후 생성된 모니터링은 목록에서 확인 가능합니다. 
-![06](http://drive.google.com/uc?export=view&id=1Xe5nV4PJGY6RQuqbHcdl8092B5b0saHa)
+![05](https://github.com/AhchimLee/memo/raw/main/import_mnt_05.png)
 
 ## 2. 모니터링 정책 목록 (JSON)
 
