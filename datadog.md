@@ -480,5 +480,5 @@ instances:
 }
 ```
 
-### Process Count 알람 예시 ( 
+### Process Count 알람 예시 (Slack)  
 ![](https://github.com/AhchimLee/memo/raw/main/process_test_01.png)
