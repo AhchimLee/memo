@@ -1,0 +1,471 @@
+# DataDog 기본 모니터링 Import & JSON 목록
+
+## 1. DataDog 모니터링 Alert Import
+
+0. https://app.datadoghq.com 접속 후,  원하는 **Organization** 내부로 접속합니다.
+![](http://drive.google.com/uc?export=view&id=1XKbhdJ7yBpCGm6Vfwa7g3KhYna_2Mfgk)
+
+1. **Monitors > Manage Monitors** 접근 후 **New Monitor**를 클릭합니다.
+![](http://drive.google.com/uc?export=view&id=1XHjmn0dPi1ub4CFerQEA94fDSwlif9XU)
+
+2. Monitor type 중 **Import Monitor from JSON**을 클릭합니다.
+![](http://drive.google.com/uc?export=view&id=1XMhdu-vz808CObDZPxg5lv7LiCL1iMWS)
+
+3. 하기 `모니터링 정책 목록 (JSON)` 내용 중 하나를 선택하여 복사 붙여넣기합니다.
+![](http://drive.google.com/uc?export=view&id=1XOeAGD6htNcXzcyLsrAOSTyZKfGwnBPZ)
+
+4. Save 후 모니터링 Alert 내용을 수정합니다. (메트릭 값, 알람 수신자 등)
+![](http://drive.google.com/uc?export=view&id=1XUKTs1fP7FJxvLbVGKHfpxz8EYFv1FAy)
+![](http://drive.google.com/uc?export=view&id=1XV6WmoOR2k88sJdT-rr4Z63X_vERF63-)
+
+5. Save 클릭 후 생성된 모니터링은 목록에서 확인 가능합니다. 
+![](http://drive.google.com/uc?export=view&id=1Xe5nV4PJGY6RQuqbHcdl8092B5b0saHa)
+
+## 2. 모니터링 정책 목록 (JSON)
+
+## CPU Used % >
+
+```json
+{
+	"id": 33062997,
+	"name": "CPU Used >= {{threshold}}% at {{name.name}}",
+	"type": "metric alert",
+	"query": "avg(last_5m):avg:aws.ec2.cpuutilization.maximum{*} by {name,instance_id,availability-zone,cloud_provider,instance-type,env,service,host} > 90",
+	"message": "*Alarm   :  CPU Used >= {{threshold}}%, Current {{value}}%\n*Name   :  {{name.name}} ({{instance_id.name}}) / {{host.ip}}\n*AZ         :  {{cloud_provider.name}} > {{availability-zone.name}}\n*Service :  {{service.name}}  >  {{env.name}}\n*Time(UTC):  {{last_triggered_at}}\n===============================   \n@ahchim.lee@bespinglobal.com @webhook-AlertNow",
+	"tags": [],
+	"options": {
+		"notify_audit": false,
+		"locked": false,
+		"timeout_h": 0,
+		"silenced": {},
+		"include_tags": false,
+		"no_data_timeframe": null,
+		"require_full_window": false,
+		"new_host_delay": 300,
+		"notify_no_data": false,
+		"renotify_interval": 0,
+		"evaluation_delay": 900,
+		"escalation_message": "",
+		"thresholds": {
+			"critical": 90
+		}
+	},
+	"priority": null
+}
+```
+
+## Disk Used % >
+```json
+{
+	"id": 33063048,
+	"name": "Disk Used >= {{threshold}}% at {{name.name}}",
+	"type": "query alert",
+	"query": "avg(last_5m):avg:system.disk.in_use{!device_name:loop*,!device_name:*tmpfs,!device_name:*udev} by {name,availability-zone,cloud_provider,service,env,host,device} * 100 > 90",
+	"message": "*Alarm   :  Disk Used >= {{threshold}}%, Current {{value}}%\n*Name   :  {{name.name}} ({{device.name}}) / {{host.name}} \n*Region :  {{cloud_provider.name}} > {{availability-zone.name}}\n*Service :  {{service.name}}  >  {{env.name}}\n*Time(UTC):  {{last_triggered_at}}\n=============================== \n@ahchim.lee@bespinglobal.com @webhook-AlertNow",
+	"tags": [],
+	"options": {
+		"notify_audit": false,
+		"locked": false,
+		"timeout_h": 0,
+		"silenced": {},
+		"include_tags": false,
+		"no_data_timeframe": null,
+		"require_full_window": false,
+		"new_host_delay": 300,
+		"notify_no_data": false,
+		"renotify_interval": 0,
+		"escalation_message": "",
+		"thresholds": {
+			"critical": 90
+		}
+	},
+	"priority": null
+}
+```
+
+## Mem Used % >
+```json
+{
+	"id": 33063072,
+	"name": "Memory Used >= {{threshold}}% at {{name.name}}",
+	"type": "query alert",
+	"query": "avg(last_1m):( avg:system.mem.total{*} by {name,availability-zone,cloud_provider,service,env,host} - avg:system.mem.usable{*} by {name,availability-zone,cloud_provider,service,env,host} ) / avg:system.mem.total{*} by {name,availability-zone,cloud_provider,service,env,host} * 100 > 90",
+	"message": "*Alarm   :  Memory Used >= {{threshold}}%, Current {{value}}%\n*Name   :  {{name.name}} / {{host.name}} \n*Region :  {{cloud_provider.name}} > {{availability-zone.name}}\n*Service :  {{service.name}}  >  {{env.name}}\n*Time(UTC):  {{last_triggered_at}}\n=============================== \n@ahchim.lee@bespinglobal.com @webhook-AlertNow",
+	"tags": [],
+	"options": {
+		"notify_audit": false,
+		"locked": false,
+		"timeout_h": 0,
+		"silenced": {},
+		"include_tags": false,
+		"no_data_timeframe": null,
+		"require_full_window": true,
+		"new_host_delay": 300,
+		"notify_no_data": false,
+		"renotify_interval": 0,
+		"escalation_message": "",
+		"thresholds": {
+			"critical": 90,
+			"warning": 85
+		}
+	},
+	"priority": null
+}
+```
+
+
+## [Host] host_name is Down
+```json
+{
+	"id": 33063164,
+	"name": "[Host] {{name.name}} is Down",
+	"type": "metric alert",
+	"query": "avg(last_5m):avg:aws.ec2.host_ok{*} by {name,availability-zone,instance-type,cloud_provider,env,service,host} <= 0",
+	"message": "*Alarm   :  {{name.name}} is Down ({{value}})\n*Name   :  {{name.name}} ({{instance-type.name}}) / {{host.name}}\n*Region :  {{cloud_provider.name}} > {{availability-zone.name}}\n*Service :  {{service.name}}  >  {{env.name}}\n*Time(UTC):  {{last_triggered_at}}\n=============================== \n@ahchim.lee@bespinglobal.com @webhook-AlertNow",
+	"tags": [],
+	"options": {
+		"notify_audit": false,
+		"locked": false,
+		"timeout_h": 0,
+		"new_host_delay": 300,
+		"require_full_window": true,
+		"notify_no_data": false,
+		"renotify_interval": "0",
+		"escalation_message": "",
+		"no_data_timeframe": null,
+		"include_tags": false,
+		"thresholds": {
+			"critical": 0
+		}
+	},
+	"priority": null
+}
+```
+
+## Uptime [time] below
+
+```json
+{
+	"id": 33118252,
+	"name": "Uptime {{threshold}} below at {{name.name}}",
+	"type": "query alert",
+	"query": "avg(last_5m):avg:system.uptime{*} by {name,availability-zone,cloud_provider,service,env,host} < 100",
+	"message": "*Alarm   :  Uptime {{threshold}} below at {{name.name}}\n*Name   :  {{name.name}} ({{device.name}}) / {{host.name}} \n*Region :  {{cloud_provider.name}} > {{availability-zone.name}}\n*Service :  {{service.name}}  >  {{env.name}}\n*Time(UTC):  {{last_triggered_at}}\n=============================== \n@ahchim.lee@bespinglobal.com @webhook-AlertNow",
+	"tags": [],
+	"options": {
+		"notify_audit": false,
+		"locked": false,
+		"timeout_h": 0,
+		"new_host_delay": 300,
+		"require_full_window": false,
+		"notify_no_data": false,
+		"renotify_interval": "0",
+		"escalation_message": "",
+		"no_data_timeframe": null,
+		"include_tags": false,
+		"thresholds": {
+			"critical": 100
+		}
+	},
+	"priority": null
+}
+```
+
+
+## [ALB] Unhealthy Host Count >= 1
+
+```json
+{
+	"id": 33108854,
+	"name": "[ALB] Unhealthy Host Count >= {{threshold}} at {{name.name}}",
+	"type": "metric alert",
+	"query": "avg(last_1m):max:aws.applicationelb.un_healthy_host_count{*} by {name,availability-zone,host,targetgroup} >= 1",
+	"message": "*Alarm   :  ALB Unhealthy Host Count >= {{threshold}}\n*Name   :  {{name.name}} / TG: {{targetgroup.name}} \n*Region :  {{cloud_provider.name}} > {{availability-zone.name}}\n*DNS      :  {{host.name}}\n*Time(UTC):  {{last_triggered_at}}\n===============================   \n@ahchim.lee@bespinglobal.com @webhook-AlertNow",
+	"tags": [],
+	"options": {
+		"notify_audit": false,
+		"locked": false,
+		"timeout_h": 0,
+		"silenced": {},
+		"include_tags": false,
+		"no_data_timeframe": null,
+		"require_full_window": true,
+		"new_host_delay": 300,
+		"notify_no_data": false,
+		"renotify_interval": 0,
+		"escalation_message": "",
+		"thresholds": {
+			"critical": 1
+		}
+	},
+	"priority": null
+}
+```
+
+## [NLB] Healthy Host Count = 0
+
+```json
+{
+	"id": 33109005,
+	"name": "[NLB] Healthy Host Count = {{threshold}} at {{name.name}}",
+	"type": "metric alert",
+	"query": "min(last_1m):min:aws.networkelb.healthy_host_count{*} by {name,availability-zone,host,targetgroup} <= 0",
+	"message": "*Alarm   :  NLB Healthy Host Count = {{threshold}}\n*Name   :  {{name.name}} / TG: {{targetgroup.name}} \n*Region :  aws > {{availability-zone.name}}\n*DNS      :  {{host.name}}\n*Time(UTC):  {{last_triggered_at}}\n===============================    \n@ahchim.lee@bespinglobal.com @webhook-AlertNow",
+	"tags": [],
+	"options": {
+		"notify_audit": false,
+		"locked": false,
+		"timeout_h": 0,
+		"new_host_delay": 300,
+		"require_full_window": true,
+		"notify_no_data": false,
+		"renotify_interval": "0",
+		"escalation_message": "",
+		"no_data_timeframe": null,
+		"include_tags": false,
+		"thresholds": {
+			"critical": 0
+		}
+	},
+	"priority": null
+}
+```
+
+## RDS Connection >=
+
+```json
+{
+	"id": 33114695,
+	"name": "RDS Connection >= {{threshold}} at {{name.name}}",
+	"type": "metric alert",
+	"query": "avg(last_1m):avg:aws.rds.database_connections{*} by {name,engine,host} >= 500",
+	"message": "*Alarm                 :  RDS Connection >= {{threshold}}\n*Current              : {{value}}\n*ClusterName    :  {{name.name}} ({{engine.name}}) \n*DBName           : {{host.dbname}} ({{host.name}})\n*Time(UTC)        :  {{last_triggered_at}}\n===============================\n@ahchim.lee@bespinglobal.com @webhook-AlertNow",
+	"tags": [],
+	"options": {
+		"notify_audit": false,
+		"locked": false,
+		"timeout_h": 0,
+		"new_host_delay": 300,
+		"require_full_window": true,
+		"notify_no_data": false,
+		"renotify_interval": "0",
+		"escalation_message": "{{host.name}} RDS Cunnection is still High",
+		"no_data_timeframe": null,
+		"include_tags": false,
+		"thresholds": {
+			"critical": 500,
+			"warning": 450
+		}
+	},
+	"priority": null
+}
+```
+
+## RDS CPU Used % >=
+
+```json
+{
+	"id": 33109357,
+	"name": "RDS CPU Used >= {{threshold}}% at {{name.name}}",
+	"type": "metric alert",
+	"query": "avg(last_1m):avg:aws.rds.cpuutilization{*} by {name,engine,host} >= 90",
+	"message": "*Alarm                 :  RDS CPU Used >= {{threshold}}%\n*Current              : {{value}}%\n*ClusterName    :  {{name.name}} ({{engine.name}}) \n*DBName           : {{host.dbname}} ({{host.name}})\n*Time(UTC)        :  {{last_triggered_at}}\n===============================\n@ahchim.lee@bespinglobal.com @webhook-AlertNow",
+	"tags": [],
+	"options": {
+		"notify_audit": false,
+		"locked": false,
+		"timeout_h": 0,
+		"new_host_delay": 300,
+		"require_full_window": true,
+		"notify_no_data": false,
+		"renotify_interval": "0",
+		"escalation_message": "{{host.name}} RDS CPU Utilization is still High",
+		"no_data_timeframe": null,
+		"include_tags": false,
+		"thresholds": {
+			"critical": 90,
+			"warning": 85
+		}
+	},
+	"priority": null
+}
+```
+
+
+## RDS Freeable Memory <=
+
+```json
+{
+	"id": 33110261,
+	"name": "RDS Freeable Memory <= {{eval \"threshold/1074000000\"}}GB at {{name.name}}",
+	"type": "metric alert",
+	"query": "avg(last_1m):avg:aws.rds.freeable_memory{!engine:aurora-mysql} by {name,engine,host} <= 1074000000",
+	"message": "*Alarm                 :  RDS Freeable Memory <= {{eval \"threshold/1074000000\"}}GB\n*Current              : {{value}}%\n*ClusterName    :  {{name.name}} ({{engine.name}}) \n*DBName           : {{host.dbname}} ({{host.name}})\n*Time(UTC)        :  {{last_triggered_at}}\n===============================\n@ahchim.lee@bespinglobal.com @webhook-AlertNow",
+	"tags": [],
+	"options": {
+		"notify_audit": false,
+		"locked": false,
+		"timeout_h": 0,
+		"new_host_delay": 300,
+		"require_full_window": true,
+		"notify_no_data": false,
+		"renotify_interval": "0",
+		"escalation_message": "{{host.name}} RDS Freeable Memory is still low",
+		"no_data_timeframe": null,
+		"include_tags": false,
+		"thresholds": {
+			"critical": 1074000000
+		}
+	},
+	"priority": null
+}
+```
+
+
+## RDS Storage Space Used % >=
+
+```json
+{
+	"id": 33110168,
+	"name": "RDS Storage Space Used >= {{threshold}}% at {{name.name}}",
+	"type": "query alert",
+	"query": "avg(last_1m):( avg:aws.rds.total_storage_space{!engine:aurora-mysql} by {name,engine,host} - avg:aws.rds.free_storage_space{!engine:aurora-mysql} by {name,engine,host} ) / avg:aws.rds.total_storage_space{!engine:aurora-mysql} by {name,engine,host} * 100 >= 90",
+	"message": "*Alarm              :  RDS Storage Space Used >= {{threshold}}%\n*Current           : {{value}}%\n*ClusterName :  {{name.name}} ({{engine.name}}) \n*DBName        : {{host.dbname}} ({{host.name}})\n*Time(UTC)     :  {{last_triggered_at}}\n===============================\n@ahchim.lee@bespinglobal.com @webhook-AlertNow",
+	"tags": [],
+	"options": {
+		"notify_audit": false,
+		"locked": false,
+		"timeout_h": 0,
+		"silenced": {},
+		"include_tags": true,
+		"no_data_timeframe": null,
+		"require_full_window": true,
+		"new_host_delay": 300,
+		"notify_no_data": false,
+		"renotify_interval": 0,
+		"evaluation_delay": 900,
+		"escalation_message": "RDS Storage Space Usage is Still High",
+		"thresholds": {
+			"critical": 90,
+			"warning": 85
+		}
+	},
+	"priority": null
+}
+```
+
+## RDS Uptime [time] below
+
+```json
+{
+	"id": 33114634,
+	"name": "[RDS] {{name.name}} Uptime {{threshold}} below",
+	"type": "metric alert",
+	"query": "avg(last_1m):avg:aws.rds.engine_uptime{*} by {dbname,engine,name} <= 0",
+	"message": "*Alarm   :  {{name.name}} is Down ({{value}})\n*RDS Down : {{name.name}} ({{dbname.name}})\n*Time(UTC) : {{last_triggered_at}}\n\n @ahchim.lee@bespinglobal.com @webhook-AlertNow",
+	"tags": [],
+	"options": {
+		"notify_audit": false,
+		"locked": false,
+		"timeout_h": 0,
+		"new_host_delay": 300,
+		"require_full_window": true,
+		"notify_no_data": false,
+		"renotify_interval": "0",
+		"escalation_message": "",
+		"no_data_timeframe": null,
+		"include_tags": true,
+		"thresholds": {
+			"critical": 0
+		}
+	},
+	"priority": null
+}
+```
+
+## VPN Tunnel Down
+
+```json
+{
+	"id": 33112951,
+	"name": "VPN Tunnel {{name.name}} is Down",
+	"type": "metric alert",
+	"query": "avg(last_1m):avg:aws.vpn.tunnel_state{*} by {name,vpnid} <= 0",
+	"message": "*Name : {{name.name}} ({{vpnid.name}})\n*Time(UTC) : {{last_triggered_at}}\n@ahchim.lee@bespinglobal.com @webhook-AlertNow",
+	"tags": [],
+	"options": {
+		"notify_audit": false,
+		"locked": false,
+		"timeout_h": 0,
+		"new_host_delay": 300,
+		"require_full_window": true,
+		"notify_no_data": false,
+		"renotify_interval": "0",
+		"escalation_message": "",
+		"no_data_timeframe": null,
+		"include_tags": true,
+		"thresholds": {
+			"critical": 0
+		}
+	},
+	"priority": null
+}
+```
+
+
+## AWS Health Scheduled Event
+
+```json
+{
+	"id": 32998109,
+	"name": "AWS Health Scheduled Event: {{event.title}}",
+	"type": "event alert",
+	"query": "events('priority:all scheduled sources:health').rollup('count').last('1d') >= 1",
+	"message": "*Alarm           :  AWS Health Scheduled Event Notification - {{event.host.name}}\n*EventId        :  {{event.id}}\n*Title              :  {{event.title}}\n*Description :  {{event.text}}\n*Time(UTC)   :  {{last_triggered_at}}\n--------------------------------------------------------------------------------------\n@ahchim.lee@bespinglobal.com @webhook-AlertNow",
+	"tags": [],
+	"options": {
+		"notify_audit": false,
+		"locked": false,
+		"timeout_h": 0,
+		"silenced": {},
+		"include_tags": true,
+		"thresholds": {
+			"critical": 1
+		},
+		"new_host_delay": 300,
+		"notify_no_data": false,
+		"renotify_interval": 1440
+	},
+	"priority": null
+}
+```
+
+
+## [process_name] Process Count < 1
+
+```json
+{
+	"id": 21277852,
+	"name": "[jenkins] process count < {{threshold}}",
+	"type": "process alert",
+	"query": "processes('jenkins').over('name:prd-an2-jenkins').rollup('count').last('1m') < 1",
+	"message": "*Alarm   :  [jenkins] process count < {{threshold}} \n*Current: {{value}}%\n*Name   :  {{name.name}}\n*Time(UTC):  {{last_triggered_at}}\n===============================\n@ahchim.lee@bespinglobal.com @webhook-AlertNow",
+	"tags": [],
+	"options": {
+		"notify_audit": false,
+		"locked": false,
+		"timeout_h": 0,
+		"new_host_delay": 300,
+		"require_full_window": false,
+		"notify_no_data": false,
+		"renotify_interval": "0",
+		"escalation_message": "",
+		"no_data_timeframe": null,
+		"include_tags": true,
+		"thresholds": {
+			"critical": 1
+		}
+	},
+	"priority": null
+}
+```
