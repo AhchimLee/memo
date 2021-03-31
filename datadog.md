@@ -443,7 +443,7 @@
 
 ## [process_name] Process Count < 1
 **/etc/datadog/process.d/conf.yaml** 파일 설정 후 **datadog-agent** 재부팅하여 사용
-ex) 서버명-프로세스명-포트(옵션)
+ex) name: 서버명-프로세스명-포트(옵션)
 ```yaml
 instances:
   - name: zet-prd-was-a-01_tomcat_8080
