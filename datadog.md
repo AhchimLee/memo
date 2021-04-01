@@ -530,3 +530,6 @@ instances:
 	"priority": null
 }
 ```
+
+### URL Check 알람 예시 (Slack)  
+![](https://github.com/AhchimLee/memo/raw/main/url_test_01.png)
