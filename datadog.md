@@ -441,7 +441,7 @@ DataDog Integration 중 **Amazon Health** 설치 후 사용
 ```
 
 
-## [process_name] Process Count < 1
+## [process_name] Process Count = 0
 **/etc/datadog/process.d/conf.yaml** 파일 설정 후 **datadog-agent** 재부팅하여 사용  
 ex) name: 프로세스명_포트(옵션)
 ```json
