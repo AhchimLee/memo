@@ -445,12 +445,13 @@ DataDog Integration 중 **Amazon Health** 설치 후 사용
 **/etc/datadog/process.d/conf.yaml** 파일 설정 후 **datadog-agent** 재부팅하여 사용  
 ex) name: 프로세스명_포트(옵션)
 ```yaml
-...
+init_config:
+
 instances:
   - name: tomcat_8080
     search_string: ["java", "tomcat"]
 ```
-메트릭 생성 시 상단 name: 부분 process_name으로 확인 가능
+메트릭 생성 시 상단 name: 부분 process_name.name으로 확인 가능
 
 참고: https://docs.datadoghq.com/integrations/process/
 ```json
@@ -482,3 +483,46 @@ instances:
 
 ### Process Count 알람 예시 (Slack)  
 ![](https://github.com/AhchimLee/memo/raw/main/process_test_01.png)
+
+## URL Check = 0
+Bastion 서버 등 URL 체크 가능한 인스턴스에서
+**/etc/datadog/http_check.d/conf.yaml** 파일 설정 후 **datadog-agent** 재부팅하여 사용  
+ex) 
+  - name: 표시명 (메트릭 상 instance.name으로 집계)
+    url: 체크 원하는 URL 기입 (메트릭 상 url.name으로 집계)
+```yaml
+instances:
+  - name: Google
+    url: https://www.google.com/
+  - name: ZET_Main
+    url: https://www.zetmobility.com/
+  - name: failurl              # 실패 테스트 URL
+    url: http://zettotototo.com
+```
+
+```json
+{
+	"id": 33169024,
+	"name": "URL {{url.name}} Check = {{eval \"int(threshold)\"}}",
+	"type": "metric alert",
+	"query": "avg(last_5m):avg:network.http.can_connect{*} by {url,instance,host,cloud_provider,service,availability-zone,env} <= 0",
+	"message": "*Alarm   :  URL {{url.name}} Check = {{eval \"int(threshold)\"}}\n*Name   :  {{instance.name}} ({{name.name}}), Check in {{host.ip}}\n*AZ         :  {{cloud_provider.name}} > {{availability-zone.name}}\n*Service :  {{service.name}}  >  {{env.name}}\n*Time(UTC):  {{last_triggered_at}}\n===============================\n@ahchim.lee@bespinglobal.com @webhook-AlertNow",
+	"tags": [],
+	"options": {
+		"notify_audit": false,
+		"locked": false,
+		"timeout_h": 0,
+		"new_host_delay": 300,
+		"require_full_window": false,
+		"notify_no_data": false,
+		"renotify_interval": "0",
+		"escalation_message": "",
+		"no_data_timeframe": null,
+		"include_tags": false,
+		"thresholds": {
+			"critical": 0
+		}
+	},
+	"priority": null
+}
+```
