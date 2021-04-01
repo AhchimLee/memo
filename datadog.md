@@ -442,7 +442,7 @@ DataDog Integration 중 **Amazon Health** 설치 후 사용
 
 
 ## [process_name] Process Count = 0
-**/etc/datadog/process.d/conf.yaml** 파일 설정 후 **datadog-agent** 재부팅하여 사용  
+**/etc/datadog-agent/process.d/conf.yaml** 파일 설정 후 **datadog-agent** 재부팅하여 사용  
 ex) name: 프로세스명_포트(옵션)
 ```json
 init_config:
@@ -486,7 +486,7 @@ instances:
 
 ## URL Check = 0
 Bastion 서버 등 URL 체크 가능한 인스턴스에서  
-**/etc/datadog/http_check.d/conf.yaml** 파일 설정 후 **datadog-agent** 재부팅하여 사용  
+**/etc/datadog-agent/http_check.d/conf.yaml** 파일 설정 후 **datadog-agent** 재부팅하여 사용  
 
 ```json
 ex) 
@@ -540,7 +540,7 @@ instances:
 
 ## 포트번호 Port Down at 서버명
 Bastion 서버 등 Port 체크 가능한 인스턴스에서  
-**/etc/datadog/tcp_check.d/conf.yaml** 파일 설정 후 **datadog-agent** 재부팅하여 사용  
+**/etc/datadog-agent/tcp_check.d/conf.yaml** 파일 설정 후 **datadog-agent** 재부팅하여 사용  
 
 ```json
 ex) 
