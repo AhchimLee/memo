@@ -485,11 +485,13 @@ instances:
 ![](https://github.com/AhchimLee/memo/raw/main/process_test_01.png)
 
 ## URL Check = 0
-Bastion 서버 등 URL 체크 가능한 인스턴스에서
+Bastion 서버 등 URL 체크 가능한 인스턴스에서  
 **/etc/datadog/http_check.d/conf.yaml** 파일 설정 후 **datadog-agent** 재부팅하여 사용  
+```yaml
 ex) 
   - name: 표시명 (메트릭 상 instance.name으로 집계)
     url: 체크 원하는 URL 기입 (메트릭 상 url.name으로 집계)
+```
 ```yaml
 instances:
   - name: Google
