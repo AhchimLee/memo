@@ -510,7 +510,7 @@ instances:
 	"name": "URL {{url.name}} Check = {{eval \"int(threshold)\"}}",
 	"type": "metric alert",
 	"query": "avg(last_5m):avg:network.http.can_connect{*} by {url,instance,host,cloud_provider,service,availability-zone,env} <= 0",
-	"message": "*Alarm   :  URL {{url.name}} Check = {{eval \"int(threshold)\"}}\n*Name   :  {{instance.name}} ({{name.name}}), Check in {{host.ip}}\n*AZ         :  {{cloud_provider.name}} > {{availability-zone.name}}\n*Service :  {{service.name}}  >  {{env.name}}\n*Time(UTC):  {{last_triggered_at}}\n===============================\n@ahchim.lee@bespinglobal.com @webhook-AlertNow",
+	"message": "*Alarm   :  URL {{url.name}} Check = {{eval \"int(threshold)\"}}\n*Name   :  {{instance.name}} ({{url.name}}), Check in {{host.ip}}\n*AZ         :  {{cloud_provider.name}} > {{availability-zone.name}}\n*Service :  {{service.name}}  >  {{env.name}}\n*Time(UTC):  {{last_triggered_at}}\n===============================\n@ahchim.lee@bespinglobal.com @webhook-AlertNow",
 	"tags": [],
 	"options": {
 		"notify_audit": false,
