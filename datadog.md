@@ -562,11 +562,11 @@ instances:
 참고: https://docs.datadoghq.com/integrations/http_check/#setup  
 ```json
 {
-	"id": 33169024,
-	"name": "URL {{url.name}} Check = {{eval \"int(threshold)\"}}",
+	"id": 33171341,
+	"name": "{{port.name}} Port Down at {{instance.name}}",
 	"type": "metric alert",
-	"query": "avg(last_5m):avg:network.http.can_connect{*} by {url,instance,host,cloud_provider,service,availability-zone,env} <= 0",
-	"message": "*Alarm   :  URL {{url.name}} Check = {{eval \"int(threshold)\"}}\n*Name   :  {{instance.name}} ({{url.name}}), Check in {{host.ip}}\n*AZ         :  {{cloud_provider.name}} > {{availability-zone.name}}\n*Service :  {{service.name}}  >  {{env.name}}\n*Time(UTC):  {{last_triggered_at}}\n===============================\n@ahchim.lee@bespinglobal.com @webhook-AlertNow",
+	"query": "avg(last_5m):avg:network.tcp.can_connect{*} by {target_host,port,instance,cloud_provider,availability-zone,service,env,host,name} <= 0",
+	"message": "*Alarm   :  {{port.name}} Port Down at {{instance.name}} \n*URL       :  {{target_host.name}} (Check at {{name.name}} ({{host.ip}})\n*AZ         :  {{cloud_provider.name}} > {{availability-zone.name}}\n*Service :  {{service.name}}  >  {{env.name}}\n*Time(UTC):  {{last_triggered_at}}\n===============================\n@ahchim.lee@bespinglobal.com @webhook-AlertNow",
 	"tags": [],
 	"options": {
 		"notify_audit": false,
