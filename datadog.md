@@ -25,6 +25,7 @@
 
 ## CPU Used % >=
 
+EC2 연동 방식
 ```json
 {
 	"id": 33062997,
@@ -45,6 +46,35 @@
 		"notify_no_data": false,
 		"renotify_interval": 0,
 		"evaluation_delay": 900,
+		"escalation_message": "",
+		"thresholds": {
+			"critical": 90
+		}
+	},
+	"priority": null
+}
+```
+
+Agent 방식
+```json
+{
+	"id": 33237155,
+	"name": "CPU Used >= {{threshold}}% at {{name.name}}",
+	"type": "query alert",
+	"query": "avg(last_5m):100 - avg:system.cpu.idle{*} by {cloud_provider,service,env,host} > 90",
+	"message": "*Alarm   :  CPU Used >= {{threshold}}%, Current {{value}}%\n*Name   :  {{name.name}}  / {{host.ip}} \n*Region :  {{cloud_provider.name}}\n*Service :  {{service.name}}  >  {{env.name}}\n*Time(UTC):  {{last_triggered_at}}\n=============================== \n@ahchim.lee@bespinglobal.com @webhook-AlertNow",
+	"tags": [],
+	"options": {
+		"notify_audit": false,
+		"locked": false,
+		"timeout_h": 0,
+		"silenced": {},
+		"include_tags": false,
+		"no_data_timeframe": null,
+		"require_full_window": false,
+		"new_host_delay": 300,
+		"notify_no_data": false,
+		"renotify_interval": 0,
 		"escalation_message": "",
 		"thresholds": {
 			"critical": 90
