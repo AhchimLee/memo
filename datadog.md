@@ -61,7 +61,7 @@ Agent 방식
 	"id": 33237155,
 	"name": "CPU Used >= {{threshold}}% at {{name.name}}",
 	"type": "query alert",
-	"query": "avg(last_5m):100 - avg:system.cpu.idle{*} by {cloud_provider,service,env,host} > 90",
+	"query": "avg(last_5m):100 - avg:system.cpu.idle{*} by {name,cloud_provider,service,env,host} > 90",
 	"message": "*Alarm   :  CPU Used >= {{threshold}}%, Current {{value}}%\n*Name   :  {{name.name}}  / {{host.ip}} \n*Region :  {{cloud_provider.name}}\n*Service :  {{service.name}}  >  {{env.name}}\n*Time(UTC):  {{last_triggered_at}}\n=============================== \n@ahchim.lee@bespinglobal.com @webhook-AlertNow",
 	"tags": [],
 	"options": {
@@ -145,6 +145,7 @@ Agent 방식
 
 
 ## [Host] host_name is Down
+AWS 연동 방식
 ```json
 {
 	"id": 33063164,
@@ -159,6 +160,34 @@ Agent 방식
 		"timeout_h": 0,
 		"new_host_delay": 300,
 		"require_full_window": true,
+		"notify_no_data": false,
+		"renotify_interval": "0",
+		"escalation_message": "",
+		"no_data_timeframe": null,
+		"include_tags": false,
+		"thresholds": {
+			"critical": 0
+		}
+	},
+	"priority": null
+}
+```
+
+Agent 방식
+```json
+{
+	"id": 33421321,
+	"name": "[host] {{name.name}} Agent Down",
+	"type": "query alert",
+	"query": "avg(last_5m):avg:datadog.agent.running{*} by {name,cloud_provider,service,env,host} <= 0",
+	"message": "*Alarm   :  [host] {{name.name}} Agent Down, Current {{value}}%\n*Name   :  {{name.name}}  / {{host.ip}} \n*Region :  {{cloud_provider.name}}\n*Service :  {{service.name}}  >  {{env.name}}\n*Time(UTC):  {{last_triggered_at}}\n=============================== \n@ahchim.lee@bespinglobal.com @webhook-AlertNow",
+	"tags": [],
+	"options": {
+		"notify_audit": false,
+		"locked": false,
+		"timeout_h": 0,
+		"new_host_delay": 300,
+		"require_full_window": false,
 		"notify_no_data": false,
 		"renotify_interval": "0",
 		"escalation_message": "",
