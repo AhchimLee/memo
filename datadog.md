@@ -442,6 +442,34 @@ Agent 방식
 }
 ```
 
+## RDS Failover Event
+```json
+{
+	"id": 33370637,
+	"name": "{{event.title}}",
+	"type": "event alert",
+	"query": "events('priority:all sources:rds failover').rollup('count').last('5m') >= 1",
+	"message": "*Title              :  {{event.title}}\n*Description :  {{event.text}}\n*EventId        :  {{event.id}}\n*Time(UTC)   :  {{last_triggered_at}}\n-------------------------------------------------------------------------------------- \n@ahchim.lee@bespinglobal.com @webhook-AlertNow",
+	"tags": [],
+	"options": {
+		"notify_audit": false,
+		"locked": false,
+		"timeout_h": 0,
+		"silenced": {},
+		"include_tags": true,
+		"thresholds": {
+			"critical": 1
+		},
+		"new_host_delay": 300,
+		"notify_no_data": false,
+		"renotify_interval": 1440,
+		"no_data_timeframe": 2
+	},
+	"priority": null
+}
+```
+
+
 ## VPN Tunnel Down
 
 ```json
