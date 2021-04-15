@@ -445,10 +445,9 @@ Agent 방식
 ## RDS Failover Event
 ```json
 {
-	"id": 33370637,
-	"name": "{{event.title}}",
+	"name": "adfafd",
 	"type": "event alert",
-	"query": "events('priority:all sources:rds failover').rollup('count').last('5m') >= 1",
+	"query": "events('tags:event_type:failover priority:all sources:rds').rollup('count').last('5m') >= 1",
 	"message": "*Title              :  {{event.title}}\n*Description :  {{event.text}}\n*EventId        :  {{event.id}}\n*Time(UTC)   :  {{last_triggered_at}}\n-------------------------------------------------------------------------------------- \n@ahchim.lee@bespinglobal.com @webhook-AlertNow",
 	"tags": [],
 	"options": {
