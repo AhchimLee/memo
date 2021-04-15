@@ -203,6 +203,8 @@ Agent 방식
 
 ## Uptime [time] below
 
+- Aurora Only
+
 ```json
 {
 	"id": 33118252,
