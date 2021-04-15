@@ -528,6 +528,34 @@ DataDog Integration 중 **Amazon Health** 설치 후 사용
 }
 ```
 
+## AutoScaling Event
+```json
+{
+	"id": 33859928,
+	"name": "[CJENM-SHINBI]_{{event.title}}_Autoscaling Event",
+	"type": "event alert",
+	"query": "events('priority:all sources:autoscaling').rollup('count').last('5m') >= 2",
+	"message": "**[Description]**  {{event.text}}\n--------------------------------------------------------------------------------------\n@ahchim.lee@bespinglobal.com @slack-newrelictestahchim-newrelic-test-ahchim",
+	"tags": [],
+	"options": {
+		"notify_audit": false,
+		"locked": false,
+		"timeout_h": 0,
+		"silenced": {},
+		"include_tags": true,
+		"thresholds": {
+			"critical": 2,
+			"warning": 1
+		},
+		"new_host_delay": 300,
+		"notify_no_data": false,
+		"renotify_interval": 0,
+		"no_data_timeframe": 2
+	},
+	"priority": null
+}
+```
+
 
 ## [process_name] Process Count = 0
 **/etc/datadog-agent/conf.d/process.d/conf.yaml** 파일 설정 후 **datadog-agent** 재시작하여 사용  
