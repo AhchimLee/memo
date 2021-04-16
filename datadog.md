@@ -605,7 +605,7 @@ Bastion 서버 등 URL 체크 가능한 인스턴스에서
 **/etc/datadog-agent/conf.d/http_check.d/conf.yaml** 파일 설정 후 **datadog-agent** 재시작하여 사용  
 
 ### 웬만하면 Synthetic URL 모니터링 추천 (서버 설정 불필요)
-    : https://drive.google.com/file/d/1cmM_nMbKhI4ymM8wehG-Pc8jLJstjaI2/view
+    - [https://drive.google.com/file/d/1cmM_nMbKhI4ymM8wehG-Pc8jLJstjaI2/view](https://drive.google.com/file/d/1cmM_nMbKhI4ymM8wehG-Pc8jLJstjaI2/view)
 
 ```json
 ex) 
