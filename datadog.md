@@ -29,7 +29,7 @@ EC2 연동 방식
 ```json
 {
 	"id": 33062997,
-	"name": "CPU Used >= {{threshold}}% at {{name.name}}",
+	"name": "[Company] CPU Used >= {{threshold}}% at {{name.name}}",
 	"type": "metric alert",
 	"query": "avg(last_5m):avg:aws.ec2.cpuutilization.maximum{*} by {name,instance_id,availability-zone,cloud_provider,instance-type,env,service,host} > 90",
 	"message": "*Alarm   :  CPU Used >= {{threshold}}%, Current {{value}}%\n*Name   :  {{name.name}} ({{instance_id.name}}) / {{host.ip}}\n*AZ         :  {{cloud_provider.name}} > {{availability-zone.name}}\n*Service :  {{service.name}}  >  {{env.name}}\n*Time(UTC):  {{last_triggered_at}}\n===============================   \n@ahchim.lee@bespinglobal.com @webhook-AlertNow",
@@ -59,7 +59,7 @@ Agent 방식
 ```json
 {
 	"id": 33237155,
-	"name": "CPU Used >= {{threshold}}% at {{name.name}}",
+	"name": "[Company] CPU Used >= {{threshold}}% at {{name.name}}",
 	"type": "query alert",
 	"query": "avg(last_5m):100 - avg:system.cpu.idle{*} by {name,cloud_provider,service,env,host} > 90",
 	"message": "*Alarm   :  CPU Used >= {{threshold}}%, Current {{value}}%\n*Name   :  {{name.name}}  / {{host.ip}} \n*Region :  {{cloud_provider.name}}\n*Service :  {{service.name}}  >  {{env.name}}\n*Time(UTC):  {{last_triggered_at}}\n=============================== \n@ahchim.lee@bespinglobal.com @webhook-AlertNow",
@@ -88,7 +88,7 @@ Agent 방식
 ```json
 {
 	"id": 33063048,
-	"name": "Disk Used >= {{threshold}}% at {{name.name}}",
+	"name": "[Company] Disk Used >= {{threshold}}% at {{name.name}}",
 	"type": "query alert",
 	"query": "avg(last_5m):avg:system.disk.in_use{!device_name:loop*,!device_name:*tmpfs,!device_name:*udev} by {name,availability-zone,cloud_provider,service,env,host,device} * 100 > 90",
 	"message": "*Alarm   :  Disk Used >= {{threshold}}%, Current {{value}}%\n*Name   :  {{name.name}} ({{device.name}}) / {{host.name}} \n*Region :  {{cloud_provider.name}} > {{availability-zone.name}}\n*Service :  {{service.name}}  >  {{env.name}}\n*Time(UTC):  {{last_triggered_at}}\n=============================== \n@ahchim.lee@bespinglobal.com @webhook-AlertNow",
@@ -117,7 +117,7 @@ Agent 방식
 ```json
 {
 	"id": 33063072,
-	"name": "Memory Used >= {{threshold}}% at {{name.name}}",
+	"name": "[Company] Memory Used >= {{threshold}}% at {{name.name}}",
 	"type": "query alert",
 	"query": "avg(last_1m):( avg:system.mem.total{*} by {name,availability-zone,cloud_provider,service,env,host} - avg:system.mem.usable{*} by {name,availability-zone,cloud_provider,service,env,host} ) / avg:system.mem.total{*} by {name,availability-zone,cloud_provider,service,env,host} * 100 > 90",
 	"message": "*Alarm   :  Memory Used >= {{threshold}}%, Current {{value}}%\n*Name   :  {{name.name}} / {{host.name}} \n*Region :  {{cloud_provider.name}} > {{availability-zone.name}}\n*Service :  {{service.name}}  >  {{env.name}}\n*Time(UTC):  {{last_triggered_at}}\n=============================== \n@ahchim.lee@bespinglobal.com @webhook-AlertNow",
@@ -149,7 +149,7 @@ AWS 연동 방식
 ```json
 {
 	"id": 33063164,
-	"name": "[Host] {{name.name}} is Down",
+	"name": "[Company] EC2 {{name.name}} is Down",
 	"type": "metric alert",
 	"query": "avg(last_5m):avg:aws.ec2.host_ok{*} by {name,availability-zone,instance-type,cloud_provider,env,service,host} <= 0",
 	"message": "*Alarm   :  {{name.name}} is Down ({{value}})\n*Name   :  {{name.name}} ({{instance-type.name}}) / {{host.name}}\n*Region :  {{cloud_provider.name}} > {{availability-zone.name}}\n*Service :  {{service.name}}  >  {{env.name}}\n*Time(UTC):  {{last_triggered_at}}\n=============================== \n@ahchim.lee@bespinglobal.com @webhook-AlertNow",
@@ -176,18 +176,18 @@ AWS 연동 방식
 Agent 방식
 ```json
 {
-	"id": 33421321,
-	"name": "[host] {{name.name}} Agent Down",
+	"id": 33533015,
+	"name": "[Company] {{name.name}} Server Not Responding",
 	"type": "query alert",
-	"query": "avg(last_5m):avg:datadog.agent.running{*} by {name,cloud_provider,service,env,host} <= 0",
-	"message": "*Alarm   :  [host] {{name.name}} Agent Down, Current {{value}}%\n*Name   :  {{name.name}}  / {{host.ip}} \n*Region :  {{cloud_provider.name}}\n*Service :  {{service.name}}  >  {{env.name}}\n*Time(UTC):  {{last_triggered_at}}\n=============================== \n@ahchim.lee@bespinglobal.com @webhook-AlertNow",
+	"query": "avg(last_1m):default( exclude_null(avg:datadog.agent.running{*} by {name,cloud_provider,service,env,host}) , 0 ) <= 0",
+	"message": "*Alarm   :  {{name.name}} Server Not Responding\n*Name   :  {{name.name}}  / {{host.ip}} \n*Region :  {{cloud_provider.name}}\n*Service :  {{service.name}}  >  {{env.name}}\n*Time(UTC):  {{last_triggered_at}}\n=============================== \n@ahchim.lee@bespinglobal.com @slack-SREDataDogTEMP-sre5-smb3 @slack-2ndZETDevOps-infra-announcements @webhook-AlertNow",
 	"tags": [],
 	"options": {
 		"notify_audit": false,
 		"locked": false,
 		"timeout_h": 0,
 		"new_host_delay": 300,
-		"require_full_window": false,
+		"require_full_window": true,
 		"notify_no_data": false,
 		"renotify_interval": "0",
 		"escalation_message": "",
@@ -208,7 +208,7 @@ Agent 방식
 ```json
 {
 	"id": 33118252,
-	"name": "Uptime {{threshold}} below at {{name.name}}",
+	"name": "[Company] Uptime {{threshold}} below at {{name.name}}",
 	"type": "query alert",
 	"query": "avg(last_5m):avg:system.uptime{*} by {name,availability-zone,cloud_provider,service,env,host} < 100",
 	"message": "*Alarm   :  Uptime {{threshold}} below at {{name.name}}\n*Name   :  {{name.name}} ({{device.name}}) / {{host.name}} \n*Region :  {{cloud_provider.name}} > {{availability-zone.name}}\n*Service :  {{service.name}}  >  {{env.name}}\n*Time(UTC):  {{last_triggered_at}}\n=============================== \n@ahchim.lee@bespinglobal.com @webhook-AlertNow",
@@ -238,7 +238,7 @@ Agent 방식
 ```json
 {
 	"id": 33108854,
-	"name": "[ALB] Unhealthy Host Count >= {{threshold}} at {{name.name}}",
+	"name": "[Company] ALB Unhealthy Host Count >= {{threshold}} at {{name.name}}",
 	"type": "metric alert",
 	"query": "avg(last_1m):max:aws.applicationelb.un_healthy_host_count{*} by {name,availability-zone,host,targetgroup} >= 1",
 	"message": "*Alarm   :  ALB Unhealthy Host Count >= {{threshold}}\n*Name   :  {{name.name}} / TG: {{targetgroup.name}} \n*Region :  {{cloud_provider.name}} > {{availability-zone.name}}\n*DNS      :  {{host.name}}\n*Time(UTC):  {{last_triggered_at}}\n===============================   \n@ahchim.lee@bespinglobal.com @webhook-AlertNow",
@@ -268,7 +268,7 @@ Agent 방식
 ```json
 {
 	"id": 33109005,
-	"name": "[NLB] Healthy Host Count = {{threshold}} at {{name.name}}",
+	"name": "[Company] NLB Healthy Host Count = {{threshold}} at {{name.name}}",
 	"type": "metric alert",
 	"query": "min(last_1m):min:aws.networkelb.healthy_host_count{*} by {name,availability-zone,host,targetgroup} <= 0",
 	"message": "*Alarm   :  NLB Healthy Host Count = {{threshold}}\n*Name   :  {{name.name}} / TG: {{targetgroup.name}} \n*Region :  aws > {{availability-zone.name}}\n*DNS      :  {{host.name}}\n*Time(UTC):  {{last_triggered_at}}\n===============================    \n@ahchim.lee@bespinglobal.com @webhook-AlertNow",
@@ -297,7 +297,7 @@ Agent 방식
 ```json
 {
 	"id": 33114695,
-	"name": "RDS Connection >= {{threshold}} at {{name.name}}",
+	"name": "[Company] RDS Connection >= {{threshold}} at {{name.name}}",
 	"type": "metric alert",
 	"query": "avg(last_1m):avg:aws.rds.database_connections{*} by {name,engine,host} >= 500",
 	"message": "*Alarm                 :  RDS Connection >= {{threshold}}\n*Current              : {{value}}\n*ClusterName    :  {{name.name}} ({{engine.name}}) \n*DBName           : {{host.dbname}} ({{host.name}})\n*Time(UTC)        :  {{last_triggered_at}}\n===============================\n@ahchim.lee@bespinglobal.com @webhook-AlertNow",
@@ -327,7 +327,7 @@ Agent 방식
 ```json
 {
 	"id": 33109357,
-	"name": "RDS CPU Used >= {{threshold}}% at {{name.name}}",
+	"name": "[Company] RDS CPU Used >= {{threshold}}% at {{name.name}}",
 	"type": "metric alert",
 	"query": "avg(last_1m):avg:aws.rds.cpuutilization{*} by {name,engine,host} >= 90",
 	"message": "*Alarm                 :  RDS CPU Used >= {{threshold}}%\n*Current              : {{value}}%\n*ClusterName    :  {{name.name}} ({{engine.name}}) \n*DBName           : {{host.dbname}} ({{host.name}})\n*Time(UTC)        :  {{last_triggered_at}}\n===============================\n@ahchim.lee@bespinglobal.com @webhook-AlertNow",
@@ -358,7 +358,7 @@ Agent 방식
 ```json
 {
 	"id": 33110261,
-	"name": "RDS Freeable Memory <= {{eval \"threshold/1074000000\"}}GB at {{name.name}}",
+	"name": "[Company] RDS Freeable Memory <= {{eval \"threshold/1074000000\"}}GB at {{name.name}}",
 	"type": "metric alert",
 	"query": "avg(last_1m):avg:aws.rds.freeable_memory{!engine:aurora-mysql} by {name,engine,host} <= 1074000000",
 	"message": "*Alarm                 :  RDS Freeable Memory <= {{eval \"threshold/1074000000\"}}GB\n*Current              : {{value}}%\n*ClusterName    :  {{name.name}} ({{engine.name}}) \n*DBName           : {{host.dbname}} ({{host.name}})\n*Time(UTC)        :  {{last_triggered_at}}\n===============================\n@ahchim.lee@bespinglobal.com @webhook-AlertNow",
@@ -388,7 +388,7 @@ Agent 방식
 ```json
 {
 	"id": 33110168,
-	"name": "RDS Storage Space Used >= {{threshold}}% at {{name.name}}",
+	"name": "[Company] RDS Storage Space Used >= {{threshold}}% at {{name.name}}",
 	"type": "query alert",
 	"query": "avg(last_1m):( avg:aws.rds.total_storage_space{!engine:aurora-mysql} by {name,engine,host} - avg:aws.rds.free_storage_space{!engine:aurora-mysql} by {name,engine,host} ) / avg:aws.rds.total_storage_space{!engine:aurora-mysql} by {name,engine,host} * 100 >= 90",
 	"message": "*Alarm              :  RDS Storage Space Used >= {{threshold}}%\n*Current           : {{value}}%\n*ClusterName :  {{name.name}} ({{engine.name}}) \n*DBName        : {{host.dbname}} ({{host.name}})\n*Time(UTC)     :  {{last_triggered_at}}\n===============================\n@ahchim.lee@bespinglobal.com @webhook-AlertNow",
@@ -416,11 +416,11 @@ Agent 방식
 ```
 
 ## RDS Uptime [time] below
-
+- Aurora Only
 ```json
 {
 	"id": 33114634,
-	"name": "[RDS] {{name.name}} Uptime {{threshold}} below",
+	"name": "[Company] RDS {{name.name}} Uptime {{threshold}} below",
 	"type": "metric alert",
 	"query": "avg(last_1m):avg:aws.rds.engine_uptime{*} by {dbname,engine,name} <= 0",
 	"message": "*Alarm   :  {{name.name}} is Down ({{value}})\n*RDS Down : {{name.name}} ({{dbname.name}})\n*Time(UTC) : {{last_triggered_at}}\n\n @ahchim.lee@bespinglobal.com @webhook-AlertNow",
@@ -447,7 +447,7 @@ Agent 방식
 ## RDS Failover Event
 ```json
 {
-	"name": "adfafd",
+	"name": "[Company] {{event.title}}",
 	"type": "event alert",
 	"query": "events('tags:event_type:failover priority:all sources:rds').rollup('count').last('5m') >= 1",
 	"message": "*Title              :  {{event.title}}\n*Description :  {{event.text}}\n*EventId        :  {{event.id}}\n*Time(UTC)   :  {{last_triggered_at}}\n-------------------------------------------------------------------------------------- \n@ahchim.lee@bespinglobal.com @webhook-AlertNow",
@@ -476,7 +476,7 @@ Agent 방식
 ```json
 {
 	"id": 33112951,
-	"name": "VPN Tunnel {{name.name}} is Down",
+	"name": "[Company] VPN Tunnel {{name.name}} is Down",
 	"type": "metric alert",
 	"query": "avg(last_1m):avg:aws.vpn.tunnel_state{*} by {name,vpnid} <= 0",
 	"message": "*Name : {{name.name}} ({{vpnid.name}})\n*Time(UTC) : {{last_triggered_at}}\n@ahchim.lee@bespinglobal.com @webhook-AlertNow",
@@ -506,7 +506,7 @@ DataDog Integration 중 **Amazon Health** 설치 후 사용
 ```json
 {
 	"id": 32998109,
-	"name": "AWS Health Scheduled Event: {{event.title}}",
+	"name": "[Company] AWS Health Scheduled Event: {{event.title}}",
 	"type": "event alert",
 	"query": "events('priority:all scheduled sources:health').rollup('count').last('1d') >= 1",
 	"message": "*Alarm           :  AWS Health Scheduled Event Notification - {{event.host.name}}\n*EventId        :  {{event.id}}\n*Title              :  {{event.title}}\n*Description :  {{event.text}}\n*Time(UTC)   :  {{last_triggered_at}}\n--------------------------------------------------------------------------------------\n@ahchim.lee@bespinglobal.com @webhook-AlertNow",
@@ -532,7 +532,7 @@ DataDog Integration 중 **Amazon Health** 설치 후 사용
 ```json
 {
 	"id": 33859928,
-	"name": "[CJENM-SHINBI]_{{event.title}}_Autoscaling Event",
+	"name": "[Company] {{event.title}} Autoscaling Event",
 	"type": "event alert",
 	"query": "events('priority:all sources:autoscaling').rollup('count').last('5m') >= 2",
 	"message": "**[Description]**  {{event.text}}\n--------------------------------------------------------------------------------------\n@ahchim.lee@bespinglobal.com @slack-newrelictestahchim-newrelic-test-ahchim",
@@ -573,7 +573,7 @@ instances:
 ```json
 {
 	"id": 33139409,
-	"name": "[{{process_name.name}}] process count = {{eval \"int(threshold)\"}} in {{name.name}}",
+	"name": "[Company] {{process_name.name}} process count = {{eval \"int(threshold)\"}} in {{name.name}}",
 	"type": "metric alert",
 	"query": "avg(last_1m):avg:system.processes.number{*} by {name,process_name,host,cloud_provider,service,instance-type,availability-zone,env} <= 0",
 	"message": "*Alarm   :  [{{process_name.name}}] process count = {{eval \"int(threshold)\"}}\n*Name   :  {{name.name}} ({{instance-type.name}}) / {{host.ip}}\n*AZ         :  {{cloud_provider.name}} > {{availability-zone.name}}\n*Service :  {{service.name}}  >  {{env.name}}\n*Time(UTC):  {{last_triggered_at}}\n===============================\n@ahchim.lee@bespinglobal.com @webhook-AlertNow",
@@ -604,6 +604,9 @@ instances:
 Bastion 서버 등 URL 체크 가능한 인스턴스에서  
 **/etc/datadog-agent/conf.d/http_check.d/conf.yaml** 파일 설정 후 **datadog-agent** 재시작하여 사용  
 
+### 웬만하면 Synthetic URL 모니터링 추천 (서버 설정 불필요)
+    : https://drive.google.com/file/d/1cmM_nMbKhI4ymM8wehG-Pc8jLJstjaI2/view
+
 ```json
 ex) 
   - name: 표시명 (메트릭 상 instance.name으로 집계)
@@ -625,7 +628,7 @@ instances:
 ```json
 {
 	"id": 33169024,
-	"name": "URL {{url.name}} Check = {{eval \"int(threshold)\"}}",
+	"name": "[Company] URL {{url.name}} Check = {{eval \"int(threshold)\"}}",
 	"type": "metric alert",
 	"query": "avg(last_5m):avg:network.http.can_connect{*} by {url,instance,host,cloud_provider,service,availability-zone,env} <= 0",
 	"message": "*Alarm   :  URL {{url.name}} Check = {{eval \"int(threshold)\"}}\n*Name   :  {{instance.name}} ({{url.name}}), Check in {{host.ip}}\n*AZ         :  {{cloud_provider.name}} > {{availability-zone.name}}\n*Service :  {{service.name}}  >  {{env.name}}\n*Time(UTC):  {{last_triggered_at}}\n===============================\n@ahchim.lee@bespinglobal.com @webhook-AlertNow",
@@ -679,7 +682,7 @@ instances:
 ```json
 {
 	"id": 33171341,
-	"name": "{{port.name}} Port Down at {{instance.name}}",
+	"name": "[Company] {{port.name}} Port Down at {{instance.name}}",
 	"type": "metric alert",
 	"query": "avg(last_5m):avg:network.tcp.can_connect{*} by {target_host,port,instance,cloud_provider,availability-zone,service,env,host,name} <= 0",
 	"message": "*Alarm   :  {{port.name}} Port Down at {{instance.name}} \n*URL       :  {{target_host.name}} (Check at {{name.name}} ({{host.ip}})\n*AZ         :  {{cloud_provider.name}} > {{availability-zone.name}}\n*Service :  {{service.name}}  >  {{env.name}}\n*Time(UTC):  {{last_triggered_at}}\n===============================\n@ahchim.lee@bespinglobal.com @webhook-AlertNow",
