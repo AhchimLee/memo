@@ -181,7 +181,7 @@ Agent 방식
 	"name": "[Company] {{name.name}} Server Not Responding",
 	"type": "query alert",
 	"query": "avg(last_1m):default( exclude_null(avg:datadog.agent.running{*} by {name,cloud_provider,service,env,host}) , 0 ) <= 0",
-	"message": "*Alarm   :  {{name.name}} Server Not Responding\n*Name   :  {{name.name}}  / {{host.ip}} \n*Region :  {{cloud_provider.name}}\n*Service :  {{service.name}}  >  {{env.name}}\n*Time(UTC):  {{last_triggered_at}}\n=============================== \n@ahchim.lee@bespinglobal.com @slack-SREDataDogTEMP-sre5-smb3 @slack-2ndZETDevOps-infra-announcements @webhook-AlertNow",
+	"message": "*Alarm   :  {{name.name}} Server Not Responding\n*Name   :  {{name.name}}  / {{host.ip}} \n*Region :  {{cloud_provider.name}}\n*Service :  {{service.name}}  >  {{env.name}}\n*Time(UTC):  {{last_triggered_at}}\n=============================== \n@ahchim.lee@bespinglobal.com @webhook-AlertNow",
 	"tags": [],
 	"options": {
 		"notify_audit": false,
@@ -203,7 +203,7 @@ Agent 방식
 ```
 
 - Server Not Responding 메트릭 확인
-
+![](https://github.com/AhchimLee/memo/raw/main/server_not_responding_metric_01.png)
 
 
 ## Uptime [time] below
