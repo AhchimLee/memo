@@ -173,6 +173,7 @@ AWS 연동 방식
 }
 ```
 
+## Server Not Responding
 Agent 방식
 ```json
 {
@@ -200,6 +201,10 @@ Agent 방식
 	"priority": null
 }
 ```
+
+- Server Not Responding 메트릭 확인
+
+
 
 ## Uptime [time] below
 
