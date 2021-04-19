@@ -174,8 +174,6 @@ AWS 연동 방식
 ```
 
 ## Server Not Responding
-
-Agent 방식
 ```json
 {
 	"id": 33954576,
