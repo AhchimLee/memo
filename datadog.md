@@ -143,30 +143,29 @@ Agent 방식
 }
 ```
 
-
-## [Host] host_name is Down
-AWS 연동 방식
+## Status Check Failed
 ```json
 {
-	"id": 33063164,
-	"name": "[Company] EC2 {{name.name}} is Down",
+	"id": 32982413,
+	"name": "[Company] {{name.name}} Status Check Failed",
 	"type": "metric alert",
-	"query": "avg(last_5m):avg:aws.ec2.host_ok{*} by {name,availability-zone,instance-type,cloud_provider,env,service,host} <= 0",
-	"message": "*Alarm   :  {{name.name}} is Down ({{value}})\n*Name   :  {{name.name}} ({{instance-type.name}}) / {{host.name}}\n*Region :  {{cloud_provider.name}} > {{availability-zone.name}}\n*Service :  {{service.name}}  >  {{env.name}}\n*Time(UTC):  {{last_triggered_at}}\n=============================== \n@ahchim.lee@bespinglobal.com @webhook-AlertNow",
+	"query": "avg(last_5m):avg:aws.ec2.status_check_failed_instance{*} by {name,availability-zone,instance-type,cloud_provider,env,service,host} >= 1",
+	"message": "*Alarm   :  {{name.name}} Status Check Failed ({{value}})\n*Name   :  {{name.name}} ({{instance-type.name}}) / {{host.ip}}\n*Region :  {{cloud_provider.name}} > {{availability-zone.name}}\n*Service :  {{service.name}}  >  {{env.name}}\n*Time(UTC):  {{last_triggered_at}}\n===============================\n@ahchim.lee@bespinglobal.com @slack-newrelictestahchim-skt-datadog-test @webhook-TEST",
 	"tags": [],
 	"options": {
 		"notify_audit": false,
 		"locked": false,
 		"timeout_h": 0,
 		"new_host_delay": 300,
-		"require_full_window": true,
+		"require_full_window": false,
 		"notify_no_data": false,
 		"renotify_interval": "0",
+		"evaluation_delay": 600,
 		"escalation_message": "",
 		"no_data_timeframe": null,
 		"include_tags": false,
 		"thresholds": {
-			"critical": 0
+			"critical": 1
 		}
 	},
 	"priority": null
@@ -177,10 +176,10 @@ AWS 연동 방식
 ```json
 {
 	"id": 33954576,
-	"name": "[BESPIN-TEST] {{name.name}} Server Not Responding",
+	"name": "[Company] {{name.name}} Server Not Responding",
 	"type": "query alert",
 	"query": "avg(last_1m):default(avg:datadog.agent.running{*} by {name,cloud_provider,service,env,availability-zone}, 0) <= 0",
-	"message": "*Alarm   :  {{name.name}} Server Not Responding\n*Region :  {{cloud_provider.name}} > {{availability-zone.name}} \n*Service :  {{service.name}}  >  {{env.name}}\n*Time(UTC):  {{last_triggered_at}}\n=============================== \n@ahchim.lee@bespinglobal.com @slack-newrelictestahchim-skt-datadog-test",
+	"message": "*Alarm   :  {{name.name}} Server Not Responding\n*Region :  {{cloud_provider.name}} > {{availability-zone.name}} \n*Service :  {{service.name}}  >  {{env.name}}\n*Time(UTC):  {{last_triggered_at}}\n=============================== \n@ahchim.lee@bespinglobal.com @webhook-AlertNow",
 	"tags": [],
 	"options": {
 		"notify_audit": false,
@@ -203,9 +202,9 @@ AWS 연동 방식
 #### EC2 임의 종료일 때도 알람 발생을 원한다면 **EC2 Automuting** 해지 필요
 - **Integrations > AWS > EC2 Automuting 체크 해제 > 하단 Update ~ 클릭**
 
-#### EC2 Automuting Enable 시 다음 알람에 대해 자동 음소거:
+#### EC2 Automuting Enable 시 다음 알람에 대해 자동 음소거됩니다:
 1. AWS 자동 Autoscaling에 의해 트리거되는 EC2 인스턴스 종료
-2. EC2 인스턴스의 수동 종료
+2. EC2 인스턴스의 수동 종료 (임의로 Stop/Terminate 버튼 클릭하여 종료)
 
 - Server Not Responding 메트릭 확인
 ![](https://github.com/AhchimLee/memo/raw/main/server_not_responding_01.png)
