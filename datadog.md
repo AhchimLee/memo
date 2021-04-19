@@ -172,6 +172,10 @@ Agent 방식
 }
 ```
 
+
+<details markdown="1">
+<summary>Server Not Responding</summary>
+
 ## Server Not Responding
 ```json
 {
@@ -199,6 +203,15 @@ Agent 방식
 	"priority": null
 }
 ```
+
+- Server Not Responding 메트릭 확인
+![](https://github.com/AhchimLee/memo/raw/main/server_not_responding_01.png)
+
+- Server Not Responding Slack 알람 예시
+![](https://github.com/AhchimLee/memo/raw/main/server_not_responding_02.png)
+
+</details>
+
 
 ## Host not reporting
 ```json
@@ -236,11 +249,6 @@ Agent 방식
 1. AWS 자동 Autoscaling에 의해 트리거되는 EC2 인스턴스 종료
 2. EC2 인스턴스의 수동 종료 (임의로 Stop/Terminate 버튼 클릭하여 종료)
 
-- Server Not Responding 메트릭 확인
-![](https://github.com/AhchimLee/memo/raw/main/server_not_responding_01.png)
-
-- Server Not Responding Slack 알람 예시
-![](https://github.com/AhchimLee/memo/raw/main/server_not_responding_02.png)
 
 ## Uptime [time] below
 
