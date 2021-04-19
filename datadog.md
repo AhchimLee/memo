@@ -149,7 +149,7 @@ Agent 방식
 	"id": 32982413,
 	"name": "[Company] {{name.name}} Status Check Failed",
 	"type": "metric alert",
-	"query": "avg(last_5m):avg:aws.ec2.status_check_failed_instance{*} by {name,availability-zone,instance-type,cloud_provider,env,service,host} >= 1",
+	"query": "avg(last_5m):avg:aws.ec2.status_check_failed{*} by {name,availability-zone,instance-type,cloud_provider,env,service,host} >= 1",
 	"message": "*Alarm   :  {{name.name}} Status Check Failed ({{value}})\n*Name   :  {{name.name}} ({{instance-type.name}}) / {{host.ip}}\n*Region :  {{cloud_provider.name}} > {{availability-zone.name}}\n*Service :  {{service.name}}  >  {{env.name}}\n*Time(UTC):  {{last_triggered_at}}\n===============================\n@ahchim.lee@bespinglobal.com @slack-newrelictestahchim-skt-datadog-test @webhook-TEST",
 	"tags": [],
 	"options": {
@@ -199,6 +199,36 @@ Agent 방식
 	"priority": null
 }
 ```
+
+## Host not reporting
+```json
+{
+	"id": 34124792,
+	"name": "[Company] {{host.name_tag}} Host not reporting",
+	"type": "service check",
+	"query": "\"datadog.agent.up\".over(\"*\").by(\"host\").last(2).count_by_status()",
+	"message": "*Alarm   :  {{host.name_tag}} ({{host.ip}}) Host not reporting\n*Region :  {{host.cloud_provider}} > {{host.availability-zone}} \n*Service :  {{host.service}}  >  {{host.env}}\n*Msg      :  {{check_message}}  \n*Time(UTC):  {{last_triggered_at}}\n=============================== \n@ahchim.lee@bespinglobal.com @webhook-AlertNow",
+	"tags": [],
+	"options": {
+		"notify_audit": false,
+		"locked": false,
+		"timeout_h": 0,
+		"silenced": {},
+		"include_tags": false,
+		"thresholds": {
+			"warning": 1,
+			"ok": 1,
+			"critical": 1
+		},
+		"new_host_delay": 300,
+		"notify_no_data": true,
+		"renotify_interval": 0,
+		"no_data_timeframe": 2
+	},
+	"priority": null
+}
+```
+
 #### EC2 임의 종료일 때도 알람 발생을 원한다면 **EC2 Automuting** 해지 필요
 - **Integrations > AWS > EC2 Automuting 체크 해제 > 하단 Update ~ 클릭**
 
