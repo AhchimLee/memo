@@ -611,6 +611,60 @@ instances:
 ### Process Count 알람 예시 (Slack)  
 ![](https://github.com/AhchimLee/memo/raw/main/process_test_01.png)
 
+
+## 포트번호 Port Down at 서버명
+Bastion 서버 등 Port 체크 가능한 인스턴스에서  
+**/etc/datadog-agent/conf.d/tcp_check.d/conf.yaml** 파일 설정 후 **datadog-agent** 재시작하여 사용  
+
+```json
+ex) 
+  - name: 대상 인스턴스 이름 (메트릭 상 instance.name으로 집계)
+    host: 체크 원하는 host ip 혹은 URL 기입 (메트릭 상 target_host.name으로 집계)
+    port: 포트번호 입력
+    collect_response_time: true  로 입력 (기본: false)
+```
+```json
+init_config:
+
+instances:
+  - name: BESPIN-TEST-WAS-A-01
+    host: 10.180.11.145
+    port: 8080
+    collect_response_time: true
+```
+
+참고: https://docs.datadoghq.com/integrations/http_check/#setup  
+```json
+{
+	"id": 33171341,
+	"name": "[Company] {{port.name}} Port Down at {{instance.name}}",
+	"type": "metric alert",
+	"query": "avg(last_5m):avg:network.tcp.can_connect{*} by {target_host,port,instance,cloud_provider,availability-zone,service,env,host,name} <= 0",
+	"message": "*Alarm   :  {{port.name}} Port Down at {{instance.name}} \n*URL       :  {{target_host.name}} (Check at {{name.name}} ({{host.ip}})\n*AZ         :  {{cloud_provider.name}} > {{availability-zone.name}}\n*Service :  {{service.name}}  >  {{env.name}}\n*Time(UTC):  {{last_triggered_at}}\n===============================\n@ahchim.lee@bespinglobal.com @webhook-AlertNow",
+	"tags": [],
+	"options": {
+		"notify_audit": false,
+		"locked": false,
+		"timeout_h": 0,
+		"new_host_delay": 300,
+		"require_full_window": false,
+		"notify_no_data": false,
+		"renotify_interval": "0",
+		"escalation_message": "",
+		"no_data_timeframe": null,
+		"include_tags": false,
+		"thresholds": {
+			"critical": 0
+		}
+	},
+	"priority": null
+}
+```
+
+### Port Check 알람 예시 (Slack)  
+![](https://github.com/AhchimLee/memo/raw/main/port_test_01.png)
+![](https://github.com/AhchimLee/memo/raw/main/port_test_02.png)
+
 ## URL Check = 0  
 
 ### 웬만하면 하기 드라이브 링크의 Synthetic URL 모니터링 추천 (서버 설정 불필요)
@@ -670,55 +724,3 @@ instances:
 
 
 
-## 포트번호 Port Down at 서버명
-Bastion 서버 등 Port 체크 가능한 인스턴스에서  
-**/etc/datadog-agent/conf.d/tcp_check.d/conf.yaml** 파일 설정 후 **datadog-agent** 재시작하여 사용  
-
-```json
-ex) 
-  - name: 대상 인스턴스 이름 (메트릭 상 instance.name으로 집계)
-    host: 체크 원하는 host ip 혹은 URL 기입 (메트릭 상 target_host.name으로 집계)
-    port: 포트번호 입력
-    collect_response_time: true  로 입력 (기본: false)
-```
-```json
-init_config:
-
-instances:
-  - name: BESPIN-TEST-WAS-A-01
-    host: 10.180.11.145
-    port: 8080
-    collect_response_time: true
-```
-
-참고: https://docs.datadoghq.com/integrations/http_check/#setup  
-```json
-{
-	"id": 33171341,
-	"name": "[Company] {{port.name}} Port Down at {{instance.name}}",
-	"type": "metric alert",
-	"query": "avg(last_5m):avg:network.tcp.can_connect{*} by {target_host,port,instance,cloud_provider,availability-zone,service,env,host,name} <= 0",
-	"message": "*Alarm   :  {{port.name}} Port Down at {{instance.name}} \n*URL       :  {{target_host.name}} (Check at {{name.name}} ({{host.ip}})\n*AZ         :  {{cloud_provider.name}} > {{availability-zone.name}}\n*Service :  {{service.name}}  >  {{env.name}}\n*Time(UTC):  {{last_triggered_at}}\n===============================\n@ahchim.lee@bespinglobal.com @webhook-AlertNow",
-	"tags": [],
-	"options": {
-		"notify_audit": false,
-		"locked": false,
-		"timeout_h": 0,
-		"new_host_delay": 300,
-		"require_full_window": false,
-		"notify_no_data": false,
-		"renotify_interval": "0",
-		"escalation_message": "",
-		"no_data_timeframe": null,
-		"include_tags": false,
-		"thresholds": {
-			"critical": 0
-		}
-	},
-	"priority": null
-}
-```
-
-### Port Check 알람 예시 (Slack)  
-![](https://github.com/AhchimLee/memo/raw/main/port_test_01.png)
-![](https://github.com/AhchimLee/memo/raw/main/port_test_02.png)
