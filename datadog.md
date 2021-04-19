@@ -174,6 +174,7 @@ AWS 연동 방식
 ```
 
 ## Server Not Responding
+
 Agent 방식
 ```json
 {
@@ -201,6 +202,12 @@ Agent 방식
 	"priority": null
 }
 ```
+#### EC2 임의 종료일 때도 알람 발생을 원한다면 **EC2 Automuting** 해지 필요
+- **Integrations > AWS > EC2 Automuting 체크 해제 > 하단 Update ~ 클릭**
+
+#### EC2 Automuting Enable 시 다음 알람에 대해 자동 음소거:
+1. AWS 자동 Autoscaling에 의해 트리거되는 EC2 인스턴스 종료
+2. EC2 인스턴스의 수동 종료
 
 - Server Not Responding 메트릭 확인
 ![](https://github.com/AhchimLee/memo/raw/main/server_not_responding_01.png)
