@@ -242,12 +242,15 @@ Agent 방식
 }
 ```
 
-#### EC2 임의 종료일 때도 알람 발생을 원한다면 **EC2 Automuting** 해지 필요
+#### EC2 임의 종료일 때에도 알람 발생을 원한다면 **EC2 Automuting** 해지 필요
 - **Integrations > AWS > EC2 Automuting 체크 해제 > 하단 Update ~ 클릭**
 
 #### EC2 Automuting Enable 시 다음 알람에 대해 자동 음소거됩니다:
 1. AWS 자동 Autoscaling에 의해 트리거되는 EC2 인스턴스 종료
-2. EC2 인스턴스의 수동 종료 (임의로 Stop/Terminate 버튼 클릭하여 종료)
+2. EC2 인스턴스의 수동 종료 
+   - 임의로 Stop/Terminate 버튼 클릭하여 종료
+   - 서버 내에서 poweroff 커맨드 실행
+   - ...
 
 
 ## Uptime [time] below
