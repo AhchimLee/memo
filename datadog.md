@@ -174,7 +174,7 @@ Agent 방식
 
 
 <details markdown="1">
-<summary>Server Not Responding</summary>
+<summary>deprecated</summary>
 
 ## Server Not Responding
 ```json
