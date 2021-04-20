@@ -252,7 +252,7 @@ Agent 방식
    - 서버 내에서 poweroff 커맨드 실행
    - ...
 
-- Host not reporting Slack 알람 예시
+- Host not reporting Slack 알람 예시  
 ![](https://github.com/AhchimLee/memo/raw/main/host_not_reporting_01.png)
 
 
