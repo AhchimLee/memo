@@ -253,7 +253,7 @@ Agent 방식
    - ...
 
 - Host not reporting Slack 알람 예시  
-![](https://github.com/AhchimLee/memo/raw/main/host_not_reporting_01.png)
+![](https://github.com/AhchimLee/memo/raw/main/host_not_reporting_01_.png)
 
 
 ## Uptime [time] below
