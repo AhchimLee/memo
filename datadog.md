@@ -220,7 +220,7 @@ Agent 방식
 	"name": "[Company] {{host.name_tag}} Host not reporting",
 	"type": "service check",
 	"query": "\"datadog.agent.up\".over(\"*\").by(\"host\").last(2).count_by_status()",
-	"message": "*Alarm   :  Host not reporting\n*Name   :  {{host.name_tag}} ({{host.instance-type}}) / {{host.ip}}\n*Region :  {{host.cloud-provider}} > {{host.availability-zone}} \n*Service :  {{host.service}}  >  {{host.env}}\n*Time(UTC):  {{last_triggered_at}}\n=============================== \n@ahchim.lee@bespinglobal.com @webhook-AlertNow ",
+	"message": "*Alarm   :  Host not reporting\n*Name   :  {{host.name_tag}} ({{host.instance-type}}) / {{host.ip}}\n*Region :  {{host.cloud_provider}} > {{host.availability-zone}} \n*Service :  {{host.service}}  >  {{host.env}}\n*Time(UTC):  {{last_triggered_at}}\n=============================== \n@ahchim.lee@bespinglobal.com @webhook-AlertNow ",
 	"tags": [],
 	"options": {
 		"notify_audit": false,
