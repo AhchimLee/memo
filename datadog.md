@@ -143,7 +143,7 @@ Agent 방식
 }
 ```
 
-## Status Check Failed
+## Status Check Failed (EC2 상태 검사 2/2)
 ```json
 {
 	"id": 32982413,
