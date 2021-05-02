@@ -530,7 +530,7 @@ Agent 방식
 	"name": "[Company] {{autoscalinggroupname.name}} Autoscaling Size {{#is_alert}}>= {{threshold}}{{/is_alert}}{{#is_warning}}>= {{warn_threshold}}{{/is_warning}}{{#is_recovery}}= {{value}}{{/is_recovery}}",
 	"type": "query alert",
 	"query": "max(last_1m):avg:aws.autoscaling.group_total_instances{*} by {autoscalinggroupname,autoscaling_group} >= 8",
-	"message": "*Alarm     :  {{autoscalinggroupname.name}} Autoscaling Size {{#is_alert}}>= {{threshold}}{{/is_alert}}{{#is_warning}}>= {{warn_threshold}}{{/is_warning}}{{#is_recovery}}= {{value}}{{/is_recovery}}\n*Current  : Autoscaling Size = {{value}}\n*Region   :  aws\n*Service   :  zet  >  prd\n*Time(UTC):  {{last_triggered_at}}\n=============================== \n@ahchim.lee@bespinglobal.com @webhook-AlertNow",
+	"message": "*Alarm     :  {{autoscalinggroupname.name}} Autoscaling Size {{#is_alert}}>= {{threshold}}{{/is_alert}}{{#is_warning}}>= {{warn_threshold}}{{/is_warning}}{{#is_recovery}}= {{value}}{{/is_recovery}}\n*Current  : Autoscaling Size = {{value}}\n*Region   :  aws\n*Service   :  company  >  dev or prd\n*Time(UTC):  {{last_triggered_at}}\n=============================== \n@ahchim.lee@bespinglobal.com @webhook-AlertNow",
 	"tags": [],
 	"options": {
 		"notify_audit": false,
